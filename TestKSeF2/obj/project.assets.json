@@ -16,10 +16,14 @@
       "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
         }
       },
       "NSwag.ApiDescription.Client/13.0.5": {
@@ -1164,23 +1168,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\gbbso\\.nuget\\packages\\": {}
+    "C:\\Users\\christian.schaadt\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gbbso\\OneDrive\\Dokumenty\\!Projekty\\TestKSeF2\\TestKSeF2\\TestKSeF2\\TestKSeF2.csproj",
+      "projectUniqueName": "C:\\Development Arc\\Jurisdictions\\Poland\\DotNetTestLib_en\\KSeF2_NET_en\\TestKSeF2\\TestKSeF2.csproj",
       "projectName": "TestKSeF2",
-      "projectPath": "C:\\Users\\gbbso\\OneDrive\\Dokumenty\\!Projekty\\TestKSeF2\\TestKSeF2\\TestKSeF2\\TestKSeF2.csproj",
-      "packagesPath": "C:\\Users\\gbbso\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gbbso\\OneDrive\\Dokumenty\\!Projekty\\TestKSeF2\\TestKSeF2\\TestKSeF2\\obj\\",
+      "projectPath": "C:\\Development Arc\\Jurisdictions\\Poland\\DotNetTestLib_en\\KSeF2_NET_en\\TestKSeF2\\TestKSeF2.csproj",
+      "packagesPath": "C:\\Users\\christian.schaadt\\.nuget\\packages\\",
+      "outputPath": "C:\\Development Arc\\Jurisdictions\\Poland\\DotNetTestLib_en\\KSeF2_NET_en\\TestKSeF2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\gbbso\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\christian.schaadt\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net6.0-windows7.0"
+        "net6.0-windows"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -1225,7 +1229,8 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -1237,7 +1242,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }
