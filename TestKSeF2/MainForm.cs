@@ -4,6 +4,7 @@
 
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Xml;
 
 namespace TestKSeF2
@@ -78,7 +79,7 @@ namespace TestKSeF2
         private void CreateClient(ConfigurationLine? CurrConf)
         {
             if (CurrConf == null)
-                throw new ApplicationException("Wska¿ konfiguracjê!");
+                throw new ApplicationException("Missing Configuration");
 
             // create Client
             if (httpClient== null)
@@ -178,7 +179,7 @@ namespace TestKSeF2
                 this.GetStatus_button.Enabled = false;
 
                 // call
-                var resp = await ClientOnLine.Online_session_session_status_reference_numberAsync(this.ReferenceNo_textBox.Text, 20, 0);
+                var resp = await ClientOnLine.Online_session_session_status_reference_numberAsync(this.ReferenceNo_textBox.Text, 20, 0, false);
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(resp.ProcessingCode);
@@ -340,14 +341,14 @@ namespace TestKSeF2
                 KSeF_Online.HashSHAType HashSHA = new();
                 HashSHA.Algorithm = "SHA-256";
                 HashSHA.Encoding = "Base64";
-                HashSHA.Value = Hash;
+                HashSHA.Value = Encoding.ASCII.GetBytes( Hash);
                 
                 KSeF_Online.File1MBHashType InvoiceHash = new();
                 InvoiceHash.FileSize = FileSize;
                 InvoiceHash.HashSHA = HashSHA;
 
                 KSeF_Online.InvoicePayloadPlainType InvoicePayloadPlainType = new();
-                InvoicePayloadPlainType.InvoiceBody = Convert.ToBase64String(FileBody);
+                InvoicePayloadPlainType.InvoiceBody = Encoding.ASCII.GetBytes(Convert.ToBase64String(FileBody));
 
                 KSeF_Online.SendInvoiceRequest req = new();
                 req.InvoiceHash = InvoiceHash;
@@ -390,8 +391,8 @@ namespace TestKSeF2
                 sb.Append("KSeF_RefNo:");
                 sb.Append(resp.InvoiceStatus.KsefReferenceNumber);
                 sb.Append(", AcqTime: ");
-                if (resp.InvoiceStatus.AcquisitionTimestamp.HasValue)
-                    sb.Append(resp.InvoiceStatus.AcquisitionTimestamp.Value.ToLocalTime().ToString());
+                //if (resp.InvoiceStatus.AcquisitionTimestamp)
+                    sb.Append(resp.InvoiceStatus.AcquisitionTimestamp.ToLocalTime().ToString());
 
                 this.InvoiceStatus_textBox.Text = sb.ToString();
 
@@ -539,13 +540,12 @@ namespace TestKSeF2
                         SubjectType = subjectType,
                         InvoicingDateFrom = this.QueryHeader_FromDate_dateTimePicker.Value,
                         InvoicingDateTo = this.QueryHeader_ToDate_dateTimePicker.Value.AddDays(1)
-
                     }
                 };
 
                 // call
                 var resp = await ClientOnLine.Online_query_query_invoiceAsync(100, (int)this.QueryHeader_PageNo_numericUpDown.Value, body);
-
+               
                 // result
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append("NumberOfElements: ");
@@ -563,9 +563,9 @@ namespace TestKSeF2
                         sb.Append(", ");
                         sb.Append(itm.AcquisitionTimestamp.ToLocalTime());
                         sb.Append(", ");
-                        sb.Append(((KSeF_Online.SubjectIdentifierByCompanyType)itm.SubjectBy.IssuedByIdentifier).Identifier);
+                        sb.Append((itm.SubjectBy.IssuedByIdentifier).ToString());
                         sb.Append("->");
-                        sb.Append(((KSeF_Online.SubjectIdentifierToCompanyType)itm.SubjectTo.IssuedToIdentifier).Identifier);
+                        sb.Append((itm.SubjectTo.IssuedToIdentifier).ToString());
                         sb.Append(", ");
                         sb.Append(itm.Net);
                         sb.Append(", ");
@@ -746,7 +746,7 @@ namespace TestKSeF2
                         if (itm.PlainPartHash.HashSHA.Algorithm != "SHA-256")
                             throw new ApplicationException("Unknown hash algorithm: " + itm.PlainPartHash.HashSHA.Algorithm);
                         var Hash = Convert.ToBase64String(mySHA256.ComputeHash(resp2.Stream));
-                        if (Hash != itm.PlainPartHash.HashSHA.Value)
+                        if (Hash != Encoding.ASCII.GetString(itm.PlainPartHash.HashSHA.Value))
                             throw new ApplicationException("Wrong Hash!");
 
                         // save stream to file

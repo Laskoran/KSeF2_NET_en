@@ -6,7 +6,7 @@ info:
     url: https://ksef.mf.gov.pl
   description: Krajowy System e-Faktur
   title: KSeF
-  version: 2.0.0
+  version: 1.0.3
 externalDocs:
   description: Dokumentacja
   url: https://www.gov.pl/web/kas/krajowy-system-e-faktur
@@ -183,8 +183,12 @@ components:
         referenceNumber:
           type: string
           pattern: "(20[2-9][0-9]|2[1-9][0-9]{2}|[3-9][0-9]{3})(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])-([0-9A-Z]{2})-([0-9A-F]{10})-([0-9A-F]{10})-([0-9A-F]{2})"
+        timestamp:
+          type: string
+          format: date-time
       required:
       - referenceNumber
+      - timestamp
     FinishResponse:
       type: object
       properties:
@@ -235,7 +239,6 @@ components:
             $ref: '#/components/schemas/HeaderEntryType'
           maxItems: 100
           minItems: 1
-          uniqueItems: true
         method:
           type: string
           enum:
@@ -271,7 +274,6 @@ components:
             $ref: '#/components/schemas/PackagePartSignatureInitResponseType'
           maxItems: 100
           minItems: 1
-          uniqueItems: true
       required:
       - packageName
       - packagePartSignatureList
